@@ -22,16 +22,16 @@
 
   // ================= STATE =================
   let state = {
-    dbMode: "indexeddb",
+    dbMode: "mysql",
     settings: {
-      rtNumber: "04",
-      rwNumber: "07",
-      housingName: "Perum Melati Asri",
-      clusterName: "Cluster Anggrek",
-      treasurerName: "Ibu Rina",
-      rtName: "RT 04 / RW 07",
-      areaName: "Perum Melati Asri • Cluster Anggrek",
-      openingBalance: 4850000,
+      rtNumber: "01",
+      rwNumber: "01",
+      housingName: "Perumahan Anda",
+      clusterName: "",
+      treasurerName: "Bendahara RT",
+      rtName: "RT 01 / RW 01",
+      areaName: "Perumahan Anda",
+      openingBalance: 0,
     },
     dues: [],
     warga: [],
@@ -325,11 +325,18 @@
     const dbText = $("#dbStatusText");
     if (dbText) {
       dbText.textContent =
-        state.dbMode === "mysql"
+        state.dbMode === "demo"
+          ? "Mode Demo (Sementara)"
+          : state.dbMode === "mysql"
           ? "MySQL DB Aktif"
           : state.dbMode === "d1"
           ? "Cloudflare D1 Aktif"
           : "Database Aktif";
+    }
+
+    const demoBanner = $("#demoBanner");
+    if (demoBanner) {
+      demoBanner.classList.toggle("hidden", !window.kasDb.isDemo());
     }
 
     const { totalBalance, monthIn, monthOut } = computeTotals();
@@ -371,6 +378,21 @@
     });
 
     const container = $("#duesGrid");
+    if (!state.dues.length) {
+      container.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <div class="empty-emoji">📋</div>
+          <strong>Belum ada jenis iuran di database</strong>
+          <p style="font-size:12px;margin-top:4px;">Tambahkan iuran wajib/opsional pertama, atau coba tampilan contoh di Mode Demo.</p>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;">
+            <button type="button" class="primary-btn sm" id="emptyAddDueBtn">+ Tambah Iuran</button>
+            ${!window.kasDb.isDemo() ? `<a href="/demo" class="outline-btn sm" style="text-decoration:none;">Buka /demo</a>` : ""}
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     if (!filtered.length) {
       container.innerHTML = `
         <div class="empty-state" style="grid-column: 1 / -1;">
@@ -447,6 +469,20 @@
 
     const preview = list.slice(0, 6);
     const grid = $("#homeWargaGrid");
+    if (!state.warga.length) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <div class="empty-emoji">🏘️</div>
+          <strong>Belum ada data warga</strong>
+          <p style="font-size:12px;margin-top:4px;">Mulai tambahkan Kepala Keluarga untuk mencatat iuran kas RT.</p>
+          <div style="margin-top:12px;">
+            <button type="button" class="primary-btn sm" id="emptyAddWargaBtn">+ Tambah Warga</button>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     if (!preview.length) {
       grid.innerHTML = `
         <div class="empty-state" style="grid-column: 1 / -1;">
@@ -1275,6 +1311,20 @@
     $("#qaAddDueBtn").addEventListener("click", openAddDueModal);
     $("#addDueInlineBtn").addEventListener("click", openAddDueModal);
 
+    const resetDemoBtn = $("#resetDemoBtn");
+    if (resetDemoBtn) {
+      resetDemoBtn.addEventListener("click", async () => {
+        const fresh = await window.kasDb.resetDemoData();
+        state.dbMode = fresh.dbMode;
+        state.settings = fresh.settings;
+        state.dues = fresh.dues;
+        state.warga = fresh.warga;
+        state.transactions = fresh.transactions;
+        renderAll();
+        showToast("Data demo dikembalikan ke kondisi awal");
+      });
+    }
+
     const openSettingsModal = () => {
       $("#setHousingName").value = state.settings.housingName || "";
       $("#setClusterName").value = state.settings.clusterName || "";
@@ -1354,6 +1404,15 @@
 
     // Delegated clicks inside dynamic grids & sheets
     document.addEventListener("click", (e) => {
+      if (e.target.closest("#emptyAddDueBtn")) {
+        openAddDueModal();
+        return;
+      }
+      if (e.target.closest("#emptyAddWargaBtn")) {
+        openAddWargaModal();
+        return;
+      }
+
       if (!e.target.closest("#monthlyChart")) {
         $$("#monthlyChart .bar-wrap.is-active").forEach((el) => el.classList.remove("is-active"));
       }

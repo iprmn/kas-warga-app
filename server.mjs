@@ -45,13 +45,18 @@ async function initMySqlDatabase() {
     multipleStatements: true,
   });
 
-  // 3. Seed initial relational records ONLY if tables are completely empty
-  const [[dueCountRow]] = await pool.query("SELECT COUNT(*) AS c FROM dues");
-  const [[wargaCountRow]] = await pool.query("SELECT COUNT(*) AS c FROM warga");
-  if (Number(dueCountRow.c) === 0 && Number(wargaCountRow.c) === 0) {
-    const seedSql = fs.readFileSync(path.join(__dirname, "database", "seed.sql"), "utf8");
-    await pool.query(seedSql);
-    console.log("Seeded initial relational records into MySQL database:", MYSQL_CONFIG.database);
+  // 3. Ensure default clean settings exist (Main app starts clean/empty like toko-app; /demo has sample data)
+  const [[setCountRow]] = await pool.query("SELECT COUNT(*) AS c FROM app_settings");
+  if (Number(setCountRow.c) === 0) {
+    await pool.query(
+      `INSERT IGNORE INTO app_settings (setting_key, setting_value) VALUES
+       ('rt_number', '01'),
+       ('rw_number', '01'),
+       ('housing_name', 'Perumahan Anda'),
+       ('cluster_name', ''),
+       ('treasurer_name', 'Bendahara RT'),
+       ('opening_balance', '0')`
+    );
   }
 }
 
@@ -59,11 +64,11 @@ async function getBootstrapData() {
   const [settingsRows] = await pool.query("SELECT setting_key, setting_value FROM app_settings");
   const sMap = Object.fromEntries(settingsRows.map((r) => [r.setting_key, r.setting_value]));
 
-  const rtNumber = sMap.rt_number || "04";
-  const rwNumber = sMap.rw_number || "07";
-  const housingName = sMap.housing_name || "Perum Melati Asri";
-  const clusterName = sMap.cluster_name !== undefined ? sMap.cluster_name : "Cluster Anggrek";
-  const treasurerName = sMap.treasurer_name || "Ibu Rina";
+  const rtNumber = sMap.rt_number || "01";
+  const rwNumber = sMap.rw_number || "01";
+  const housingName = sMap.housing_name || "Perumahan Anda";
+  const clusterName = sMap.cluster_name !== undefined ? sMap.cluster_name : "";
+  const treasurerName = sMap.treasurer_name || "Bendahara RT";
 
   const settings = {
     rtNumber,
@@ -73,7 +78,7 @@ async function getBootstrapData() {
     treasurerName,
     rtName: `RT ${rtNumber} / RW ${rwNumber}`,
     areaName: clusterName ? `${housingName} • ${clusterName}` : housingName,
-    openingBalance: Number(sMap.opening_balance || 4850000),
+    openingBalance: Number(sMap.opening_balance || 0),
   };
 
   const [dueRows] = await pool.query("SELECT id, name, amount, category, emoji, description FROM dues ORDER BY created_at ASC, id ASC");
@@ -304,8 +309,9 @@ async function startServer() {
         return sendJson(res, 200, { ok: true });
       }
 
-      // ================= STATIC ASSETS (public/) =================
-      const relPath = pathname === "/" ? "/index.html" : pathname;
+      // ================= STATIC ASSETS (public/) — '/' and '/demo' both serve index.html =================
+      const isAppEntry = pathname === "/" || pathname === "/demo" || pathname === "/demo/";
+      const relPath = isAppEntry ? "/index.html" : pathname;
       const safePath = path.normalize(relPath).replace(/^(\.\.[/\\])+/, "");
       const fullPath = path.join(PUBLIC_DIR, safePath);
 

@@ -2,9 +2,14 @@
 
 Aplikasi pencatatan iuran kas warga yang ringan, responsif di **Mobile & Tablet**, dengan skema warna **Deep Forest Green (`#07332A`) & Electric Lime (`#8EE055`)**, serta penyimpanan database relasional sejati (**MySQL lokal** dan **Cloudflare D1**).
 
-## Demo Live (Cloudflare Workers + D1)
-- **URL**: https://kas-warga-app.pandu-app.workers.dev
+## Akses Live (Cloudflare Workers + D1)
+- **Aplikasi Utama (Database Bersih / D1)**: https://kas-warga-app.pandu-app.workers.dev/
+- **Mode Demo Publik (Data Contoh Sementara)**: https://kas-warga-app.pandu-app.workers.dev/demo
 - **Cloudflare D1 Database**: `kas-warga-db` (`0683de75-dd05-49e0-995e-100168f96657`)
+
+### Pemisahan App Utama vs `/demo`
+- **`/` (App Utama)**: Terhubung langsung ke database relasional (**MySQL lokal** / **Cloudflare D1**). Mulai dalam keadaan bersih/kosong agar siap diisi data perumahan sendiri tanpa data dummy.
+- **`/demo` (Mode Demo Publik)**: Berjalan di memori (*in-memory*) dengan data contoh lengkap (6 jenis iuran, 10 KK warga, 12 transaksi) dilengkapi tombol **Reset Demo**. Semua perubahan pada `/demo` bersifat sementara dan tidak menyentuh database utama.
 
 ## Fitur Utama
 - **Mobile-First & Responsive Tablet**: Navigasi bawah 5 menu dengan tombol bulat **Bayar** di tengah pada mobile, otomatis beradaptasi menjadi sidebar pada tablet & desktop.
@@ -29,4 +34,4 @@ Lihat [database/schema.sql](database/schema.sql) (MySQL InnoDB) dan [database/d1
    npm install
    npm start
    ```
-3. Server otomatis membuat database `kas_warga`, menjalankan `database/schema.sql` & `database/seed.sql` (jika kosong), lalu berjalan di `http://127.0.0.1:8765`.
+3. Server otomatis membuat database `kas_warga` dan menjalankan `database/schema.sql` (bersih tanpa data dummy), lalu berjalan di `http://127.0.0.1:8765/` (App Utama) dan `http://127.0.0.1:8765/demo` (Mode Demo). Jika ingin mengisi data contoh ke MySQL secara manual, jalankan `database/seed.sql`.

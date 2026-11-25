@@ -7,11 +7,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>KasWarga — Iuran Kas RT</title>
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="/manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <div class="app-shell">
@@ -143,6 +143,31 @@
 
       <!-- Main Scrollable Content -->
       <main class="content-container">
+        <!-- Demo Mode Public Banner (only shown on /demo) -->
+        <div class="demo-banner hidden" id="demoBanner">
+          <div class="demo-banner-left">
+            <span class="demo-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </span>
+            <div class="demo-banner-text">
+              <strong>Mode Demo Publik (Data Sementara)</strong>
+              <span>Bebas mencoba bayar iuran, warga, &amp; laporan tanpa mengubah database utama.</span>
+            </div>
+          </div>
+          <div class="demo-banner-actions">
+            <button type="button" class="demo-reset-btn" id="resetDemoBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10" />
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+              </svg>
+              <span>Reset Demo</span>
+            </button>
+            <a href="/" class="demo-exit-link">App Utama</a>
+          </div>
+        </div>
+
         <!-- ================= TAB 1: BERANDA ================= -->
         <section class="tab-view active" id="tab-beranda">
           <!-- Hero Grid: Wallet Card + Target Banner -->
@@ -734,8 +759,8 @@
   <!-- Toast Notification -->
   <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="db.js"></script>
-  <script src="pdfExport.js"></script>
-  <script src="app.js"></script>
+  <script src="/db.js"></script>
+  <script src="/pdfExport.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>

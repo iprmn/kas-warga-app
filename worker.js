@@ -16,11 +16,11 @@ async function getBootstrapData(db) {
     .all();
   const sMap = Object.fromEntries((settingsRows || []).map((r) => [r.setting_key, r.setting_value]));
 
-  const rtNumber = sMap.rt_number || "04";
-  const rwNumber = sMap.rw_number || "07";
-  const housingName = sMap.housing_name || "Perum Melati Asri";
-  const clusterName = sMap.cluster_name !== undefined ? sMap.cluster_name : "Cluster Anggrek";
-  const treasurerName = sMap.treasurer_name || "Ibu Rina";
+  const rtNumber = sMap.rt_number || "01";
+  const rwNumber = sMap.rw_number || "01";
+  const housingName = sMap.housing_name || "Perumahan Anda";
+  const clusterName = sMap.cluster_name !== undefined ? sMap.cluster_name : "";
+  const treasurerName = sMap.treasurer_name || "Bendahara RT";
 
   const settings = {
     rtNumber,
@@ -30,7 +30,7 @@ async function getBootstrapData(db) {
     treasurerName,
     rtName: `RT ${rtNumber} / RW ${rwNumber}`,
     areaName: clusterName ? `${housingName} • ${clusterName}` : housingName,
-    openingBalance: Number(sMap.opening_balance || 4850000),
+    openingBalance: Number(sMap.opening_balance || 0),
   };
 
   const { results: dueRows } = await db
@@ -229,12 +229,18 @@ export default {
       }
     }
 
+    const isAppEntry = pathname === "/" || pathname === "/demo" || pathname === "/demo/";
+
     if (env.ASSETS) {
+      if (isAppEntry) {
+        const indexReq = new Request(new URL("/index.html", url.origin), request);
+        return env.ASSETS.fetch(indexReq);
+      }
       return env.ASSETS.fetch(request);
     }
 
     if (env.KAS_ASSETS) {
-      const key = pathname === "/" ? "/index.html" : pathname;
+      const key = isAppEntry ? "/index.html" : pathname;
       const content = await env.KAS_ASSETS.get(key);
       if (content !== null) {
         const mimeMap = {
