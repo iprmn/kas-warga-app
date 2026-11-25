@@ -245,11 +245,22 @@
     }
     pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
 
+    const filename = `Laporan-Arus-Kas-${periodCode}.pdf`;
+    try {
+      const cap = window.Capacitor;
+      if (cap && typeof cap.isNativePlatform === "function" && cap.isNativePlatform() && cap.Plugins && cap.Plugins.KasWargaNativeDB) {
+        cap.Plugins.KasWargaNativeDB.savePdf({ filename, base64: btoa(pdf) });
+        return;
+      }
+    } catch {
+      // Fallback to browser download below
+    }
+
     const blob = new Blob([pdf], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Laporan-Arus-Kas-${periodCode}.pdf`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     a.remove();

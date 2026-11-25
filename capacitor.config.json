@@ -1,0 +1,15 @@
+{
+  "appId": "com.iprmn.kaswarga",
+  "appName": "KasWarga",
+  "webDir": "public",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": true
+    }
+  }
+}

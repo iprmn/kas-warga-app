@@ -327,6 +327,8 @@
       dbText.textContent =
         state.dbMode === "demo"
           ? "Mode Demo (Sementara)"
+          : state.dbMode === "android-sqlite"
+          ? "SQLite Lokal Perangkat"
           : state.dbMode === "mysql"
           ? "MySQL DB Aktif"
           : state.dbMode === "d1"
@@ -383,10 +385,14 @@
         <div class="empty-state" style="grid-column: 1 / -1;">
           <div class="empty-emoji">📋</div>
           <strong>Belum ada jenis iuran di database</strong>
-          <p style="font-size:12px;margin-top:4px;">Tambahkan iuran wajib/opsional pertama, atau coba tampilan contoh di Mode Demo.</p>
+          <p style="font-size:12px;margin-top:4px;">${
+            window.kasDb.isNative()
+              ? "Tambahkan iuran wajib atau opsional pertama Anda. Semua data tersimpan di database lokal HP ini."
+              : "Tambahkan iuran wajib/opsional pertama, atau coba tampilan contoh di Mode Demo."
+          }</p>
           <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;">
             <button type="button" class="primary-btn sm" id="emptyAddDueBtn">+ Tambah Iuran</button>
-            ${!window.kasDb.isDemo() ? `<a href="/demo" class="outline-btn sm" style="text-decoration:none;">Buka /demo</a>` : ""}
+            ${!window.kasDb.isDemo() && !window.kasDb.isNative() ? `<a href="/demo" class="outline-btn sm" style="text-decoration:none;">Buka /demo</a>` : ""}
           </div>
         </div>
       `;

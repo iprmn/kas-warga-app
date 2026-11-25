@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">KasWarga</string>
+    <string name="title_activity_main">KasWarga</string>
+    <string name="package_name">com.iprmn.kaswarga</string>
+    <string name="custom_url_scheme">com.iprmn.kaswarga</string>
+</resources>

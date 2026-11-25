@@ -7,9 +7,13 @@
     "start": "node server.mjs",
     "dev": "node server.mjs",
     "db:init": "node scripts/init-mysql.mjs",
-    "cf:deploy": "npx wrangler deploy"
+    "cf:deploy": "npx wrangler deploy",
+    "apk:sync": "npx cap sync android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
     "dotenv": "^16.4.7",
     "mysql2": "^3.14.0"
   }

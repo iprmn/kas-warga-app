@@ -182,9 +182,25 @@
     return data;
   }
 
+  function getNativeDb() {
+    try {
+      const cap = window.Capacitor;
+      if (cap && typeof cap.isNativePlatform === "function" && cap.isNativePlatform()) {
+        return cap.Plugins && cap.Plugins.KasWargaNativeDB ? cap.Plugins.KasWargaNativeDB : null;
+      }
+    } catch {
+      // ignore
+    }
+    return null;
+  }
+
   window.kasDb = {
     isDemo() {
-      return isDemoMode();
+      return !getNativeDb() && isDemoMode();
+    },
+
+    isNative() {
+      return Boolean(getNativeDb());
     },
 
     async resetDemoData() {
@@ -193,11 +209,15 @@
     },
 
     async bootstrap() {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.bootstrap();
       if (isDemoMode()) return clone(demoMemory);
       return apiJson("/api/bootstrap", { method: "GET" });
     },
 
     async upsertWarga(w) {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.upsertWarga(w);
       if (isDemoMode()) {
         const idx = demoMemory.warga.findIndex((x) => x.id === w.id);
         if (idx >= 0) demoMemory.warga[idx] = { ...w };
@@ -208,6 +228,8 @@
     },
 
     async deleteWarga(id) {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.deleteWarga({ id });
       if (isDemoMode()) {
         demoMemory.warga = demoMemory.warga.filter((x) => x.id !== id);
         return { ok: true };
@@ -216,6 +238,8 @@
     },
 
     async upsertDue(d) {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.upsertDue(d);
       if (isDemoMode()) {
         const idx = demoMemory.dues.findIndex((x) => x.id === d.id);
         if (idx >= 0) demoMemory.dues[idx] = { ...d };
@@ -226,6 +250,8 @@
     },
 
     async recordTransaction(tx) {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.recordTransaction(tx);
       if (isDemoMode()) {
         demoMemory.transactions.unshift(clone(tx));
         return { ok: true, transaction: tx };
@@ -234,6 +260,8 @@
     },
 
     async deleteTransaction(id) {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.deleteTransaction({ id });
       if (isDemoMode()) {
         demoMemory.transactions = demoMemory.transactions.filter((t) => t.id !== id);
         return { ok: true };
@@ -242,6 +270,8 @@
     },
 
     async saveSettings(settings) {
+      const nativeDb = getNativeDb();
+      if (nativeDb) return nativeDb.saveSettings(settings);
       if (isDemoMode()) {
         demoMemory.settings = { ...demoMemory.settings, ...settings };
         return { ok: true, settings: demoMemory.settings };

@@ -1,0 +1,65 @@
+name: Build Android APK (SQLite Perangkat Offline)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Java JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Install NPM dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Sync Capacitor Android Project
+        run: npx cap sync android
+
+      - name: Build Debug APK with Gradle
+        working-directory: ./android
+        run: |
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Rename APK
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk "./KasWarga.apk"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "./kas-warga-offline.apk"
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KasWarga-APK
+          path: "./KasWarga.apk"
+          retention-days: 30
+
+      - name: Publish APK to GitHub Releases (Latest)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0-apk
+          target_commitish: ${{ github.sha }}
+          name: "KasWarga Android APK (SQLite Lokal)"
+          body: "Download file **KasWarga.apk** di bawah ini untuk menginstal aplikasi **KasWarga** di perangkat Android. Setiap perangkat otomatis memiliki database relasional SQLite lokal (`kas_warga.db`) yang berjalan 100% offline."
+          files: |
+            ./KasWarga.apk
+            ./kas-warga-offline.apk
+          prerelease: false
