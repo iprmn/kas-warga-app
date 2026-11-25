@@ -2,6 +2,11 @@
 
 Aplikasi pencatatan iuran kas warga yang ringan, responsif di **Mobile & Tablet**, dengan skema warna **Deep Forest Green (`#07332A`) & Electric Lime (`#8EE055`)**, serta penyimpanan database relasional sejati (**MySQL lokal** dan **Cloudflare D1**).
 
+## Aplikasi Android (APK — Database SQLite Lokal Offline)
+- **Download APK Terbaru**: https://github.com/iprmn/kas-warga-app/releases/tag/v1.0.0-apk (`KasWarga.apk`)
+- **Database Per Perangkat**: Setiap perangkat Android secara otomatis membuat database relasional SQLite lokal sendiri (`kas_warga.db` melalui `SQLiteOpenHelper`) dengan 5 tabel berelasi + `FOREIGN KEY` aktif — berjalan **100% offline** tanpa perlu server atau internet.
+- **Export PDF Native**: Tombol **Export PDF** pada aplikasi Android langsung menyimpan file `Laporan-Arus-Kas-YYYY-MM.pdf` ke folder **Download** perangkat.
+
 ## Akses Live (Cloudflare Workers + D1)
 - **Aplikasi Utama (Database Bersih / D1)**: https://kas-warga-app.pandu-app.workers.dev/
 - **Mode Demo Publik (Data Contoh Sementara)**: https://kas-warga-app.pandu-app.workers.dev/demo
