@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07332A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>KasWarga — Iuran Kas RT</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Tablet / Desktop Left Sidebar Navigation (Forest Green + Lime Accent Style) -->
+    <aside class="side-nav" aria-label="Navigasi Utama">
+      <div class="side-brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">KasWarga</div>
+          <div class="brand-sub" id="sidebarRtLabel">RT 04 / RW 07</div>
+        </div>
+      </div>
+
+      <nav class="side-menu">
+        <button class="nav-item active" data-tab="beranda" type="button">
+          <span class="nav-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z" />
+            </svg>
+          </span>
+          <span>Beranda</span>
+        </button>
+        <button class="nav-item" data-tab="warga" type="button">
+          <span class="nav-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </span>
+          <span>Data Warga</span>
+        </button>
+        <button class="nav-item" data-tab="riwayat" type="button">
+          <span class="nav-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="8" y1="13" x2="16" y2="13" />
+              <line x1="8" y1="17" x2="13" y2="17" />
+            </svg>
+          </span>
+          <span>Riwayat Kas</span>
+        </button>
+        <button class="nav-item" data-tab="laporan" type="button">
+          <span class="nav-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" />
+            </svg>
+          </span>
+          <span>Laporan</span>
+        </button>
+      </nav>
+
+      <div class="side-footer">
+        <button class="primary-btn full" id="sideBayarBtn" type="button">Bayar Iuran</button>
+        <button class="side-action-btn" id="sideAddExpenseBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="12" rx="2" />
+            <circle cx="12" cy="12" r="2.5" />
+            <path d="M6 12h.01M18 12h.01" />
+          </svg>
+          <span>Catat Pengeluaran</span>
+        </button>
+        <button class="side-ghost-btn" id="sideSettingsBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+          <span>Pengaturan</span>
+        </button>
+        <div class="db-status-pill" id="dbStatusBadge">
+          <span class="db-dot"></span>
+          <span id="dbStatusText">DB Lokal Aktif</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main App Workspace -->
+    <div class="main-area">
+      <!-- Sticky Store-Style Top Bar (Clean: Search + Location + Period, no Cart/Setting buttons) -->
+      <header class="top-header">
+        <div class="header-row">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="search" id="globalSearch" placeholder="Cari iuran, nama warga, atau blok..." autocomplete="off" />
+            <button type="button" class="clear-search hidden" id="clearSearchBtn" aria-label="Hapus pencarian">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <button type="button" class="icon-btn mobile-only" id="openSettingsBtn" aria-label="Pengaturan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Location & Period Strip -->
+        <div class="location-strip">
+          <div class="location-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <strong class="loc-name" id="headerRtName">RT 04 / RW 07 • Perum Melati Asri</strong>
+          </div>
+          <div class="period-pill">
+            <label for="periodSelect" class="sr-only">Periode Bulan</label>
+            <select id="periodSelect" aria-label="Pilih Periode Bulan"></select>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Scrollable Content -->
+      <main class="content-container">
+        <!-- ================= TAB 1: BERANDA ================= -->
+        <section class="tab-view active" id="tab-beranda">
+          <!-- Hero Grid: Wallet Card + Target Banner -->
+          <div class="hero-grid">
+            <!-- Saldo Kas Card -->
+            <div class="wallet-card">
+              <div class="wallet-top">
+                <div class="wallet-balance-block">
+                  <div class="wallet-label">
+                    <span>Saldo Kas Warga</span>
+                    <button type="button" class="eye-btn" id="toggleBalanceBtn" aria-label="Sembunyikan saldo">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="wallet-amount" id="totalBalanceDisplay">Rp 0</div>
+                </div>
+                <span class="wallet-chip" id="bendaharaChip">Kas Aktif</span>
+              </div>
+
+              <div class="wallet-metrics">
+                <div class="metric-item">
+                  <span class="metric-dot in"></span>
+                  <div>
+                    <div class="metric-label">Masuk</div>
+                    <div class="metric-val in" id="monthIncomeDisplay">Rp 0</div>
+                  </div>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                  <span class="metric-dot out"></span>
+                  <div>
+                    <div class="metric-label">Keluar</div>
+                    <div class="metric-val out" id="monthExpenseDisplay">Rp 0</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dark Forest + Lime Progress Banner -->
+            <div class="promo-banner">
+              <div class="promo-content">
+                <div class="promo-top-row">
+                  <div class="promo-tag">Target <span id="bannerPeriodText">Nov 2026</span></div>
+                  <span class="promo-pct-badge" id="collectionPctText">0%</span>
+                </div>
+                <h2 class="promo-title" id="bannerHeadline">0 / 0 KK Lunas</h2>
+                <div class="progress-track">
+                  <div class="progress-fill" id="collectionProgressFill" style="width: 0%"></div>
+                </div>
+                <div class="promo-foot">
+                  <span id="bannerSubtext">0 KK belum lunas</span>
+                  <button type="button" class="promo-link-btn" id="bannerFilterUnpaidBtn">Lihat &rarr;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Icons Row (4 balanced shortcuts; Bayar is the dominant center bottom nav) -->
+          <div class="quick-actions" aria-label="Aksi Cepat">
+            <button type="button" class="quick-btn" id="qaExpenseBtn">
+              <span class="quick-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="2" />
+                  <circle cx="12" cy="12" r="2.5" />
+                  <path d="M6 12h.01M18 12h.01" />
+                </svg>
+              </span>
+              <span>Pengeluaran</span>
+            </button>
+            <button type="button" class="quick-btn" id="qaAddWargaBtn">
+              <span class="quick-icon forest">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="8.5" cy="7" r="4" />
+                  <line x1="20" y1="8" x2="20" y2="14" />
+                  <line x1="23" y1="11" x2="17" y2="11" />
+                </svg>
+              </span>
+              <span>Tambah KK</span>
+            </button>
+            <button type="button" class="quick-btn" id="qaAddDueBtn">
+              <span class="quick-icon lime">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                  <line x1="7" y1="7" x2="7.01" y2="7" />
+                </svg>
+              </span>
+              <span>Iuran Baru</span>
+            </button>
+            <button type="button" class="quick-btn" id="qaShareWaBtn">
+              <span class="quick-icon forest">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+              </span>
+              <span>Salin WA</span>
+            </button>
+          </div>
+
+          <!-- Category Filter Chips (Only Semua, Wajib, Opsional) -->
+          <div class="section-header">
+            <h3>Daftar Iuran</h3>
+            <button type="button" class="text-link-btn" id="addDueInlineBtn">+ Tambah</button>
+          </div>
+
+          <div class="chip-scroll" id="categoryChips">
+            <button type="button" class="chip active" data-category="semua">Semua</button>
+            <button type="button" class="chip" data-category="wajib">Wajib</button>
+            <button type="button" class="chip" data-category="opsional">Opsional</button>
+          </div>
+
+          <!-- Store-Style Product Card Grid for Iuran Items -->
+          <div class="dues-grid" id="duesGrid"></div>
+
+          <!-- Status Warga Preview Section -->
+          <div class="section-header mt-lg">
+            <h3>Status Warga</h3>
+            <button type="button" class="text-link-btn" id="seeAllWargaBtn">Lihat Semua</button>
+          </div>
+
+          <div class="chip-scroll" id="homeWargaFilterChips">
+            <button type="button" class="chip active" data-status="belum">Belum Lunas</button>
+            <button type="button" class="chip" data-status="semua">Semua</button>
+            <button type="button" class="chip" data-status="lunas">Lunas</button>
+          </div>
+
+          <div class="warga-grid" id="homeWargaGrid"></div>
+        </section>
+
+        <!-- ================= TAB 2: WARGA ================= -->
+        <section class="tab-view" id="tab-warga">
+          <div class="page-head">
+            <div>
+              <h2>Data Warga</h2>
+              <p class="section-sub" id="wargaCountSub">0 KK</p>
+            </div>
+            <button type="button" class="primary-btn sm" id="wargaTabAddBtn">+ Warga</button>
+          </div>
+
+          <div class="filter-bar">
+            <div class="chip-scroll" id="wargaStatusChips">
+              <button type="button" class="chip active" data-status="semua">Semua</button>
+              <button type="button" class="chip" data-status="belum">Belum</button>
+              <button type="button" class="chip" data-status="lunas">Lunas</button>
+            </div>
+            <select id="blokFilterSelect" class="compact-select" aria-label="Filter Blok">
+              <option value="semua">Semua Blok</option>
+            </select>
+          </div>
+
+          <div class="warga-grid" id="fullWargaGrid"></div>
+        </section>
+
+        <!-- ================= TAB 3: RIWAYAT ================= -->
+        <section class="tab-view" id="tab-riwayat">
+          <div class="page-head">
+            <div>
+              <h2>Riwayat Kas</h2>
+              <p class="section-sub">Ketuk transaksi untuk detail</p>
+            </div>
+            <button type="button" class="danger-soft-btn sm" id="riwayatAddExpenseBtn">- Keluar</button>
+          </div>
+
+          <div class="chip-scroll" id="txFilterChips">
+            <button type="button" class="chip active" data-type="semua">Semua</button>
+            <button type="button" class="chip" data-type="masuk">Masuk</button>
+            <button type="button" class="chip" data-type="keluar">Keluar</button>
+          </div>
+
+          <div class="tx-list" id="txList"></div>
+        </section>
+
+        <!-- ================= TAB 4: LAPORAN ================= -->
+        <section class="tab-view" id="tab-laporan">
+          <div class="page-head">
+            <div>
+              <h2>Laporan Kas</h2>
+              <p class="section-sub" id="reportSubtitle">Ringkasan bulanan</p>
+            </div>
+            <div class="head-btn-group">
+              <button type="button" class="outline-btn sm" id="exportPdfBtn">Export PDF</button>
+              <button type="button" class="primary-btn sm" id="copyReportWaBtn">Salin WA</button>
+            </div>
+          </div>
+
+          <div class="report-kpi-grid" id="reportKpiGrid"></div>
+
+          <div class="surface-card" style="margin-bottom: 12px;">
+            <div class="card-head">
+              <h4>Arus Kas 3 Bulan Terakhir</h4>
+              <div class="legend-row">
+                <span class="legend-item"><i class="dot in"></i>Masuk</span>
+                <span class="legend-item"><i class="dot out"></i>Keluar</span>
+              </div>
+            </div>
+            <div class="bar-chart" id="monthlyChart"></div>
+          </div>
+
+          <div class="report-cards-grid">
+            <div class="surface-card">
+              <div class="card-head">
+                <h4>Rincian Pemasukan</h4>
+                <span class="pill-muted" id="reportPeriodBadge">Nov 2026</span>
+              </div>
+              <div class="breakdown-list" id="categoryBreakdown"></div>
+            </div>
+
+            <div class="surface-card">
+              <div class="card-head">
+                <h4>Rincian Pengeluaran</h4>
+                <span class="pill-muted" id="reportExpensePeriodBadge">Nov 2026</span>
+              </div>
+              <div class="breakdown-list" id="expenseBreakdown"></div>
+            </div>
+          </div>
+
+          <div class="surface-card saldo-summary-card" style="margin-top: 12px;">
+            <div class="card-head">
+              <h4>Ringkasan Saldo Kas</h4>
+              <span class="pill-muted" id="reportSaldoPeriodBadge">Nov 2026</span>
+            </div>
+            <div id="saldoSummaryBody"></div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Mobile Bottom Navigation Bar (5 slots with dominant round center "Bayar" button) -->
+      <nav class="bottom-nav" aria-label="Navigasi Bawah">
+        <button class="bnav-item active" data-tab="beranda" type="button">
+          <span class="bnav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z" />
+            </svg>
+          </span>
+          <span>Beranda</span>
+        </button>
+        <button class="bnav-item" data-tab="warga" type="button">
+          <span class="bnav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </span>
+          <span>Warga</span>
+        </button>
+        <div class="bnav-center-slot">
+          <button class="bnav-pay-btn" id="bottomPayBtn" type="button" aria-label="Bayar Iuran">
+            <span class="bnav-pay-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1" />
+                <path d="M3 7h16" />
+                <path d="M16 12h5v4h-5a2 2 0 0 1 0-4z" />
+              </svg>
+            </span>
+            <span class="bnav-pay-label">Bayar</span>
+          </button>
+        </div>
+        <button class="bnav-item" data-tab="riwayat" type="button">
+          <span class="bnav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="8" y1="13" x2="16" y2="13" />
+              <line x1="8" y1="17" x2="13" y2="17" />
+            </svg>
+          </span>
+          <span>Riwayat</span>
+        </button>
+        <button class="bnav-item" data-tab="laporan" type="button">
+          <span class="bnav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" />
+            </svg>
+          </span>
+          <span>Laporan</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ================= MODALS / BOTTOM SHEETS ================= -->
+  <div class="modal-backdrop hidden" id="modalBackdrop"></div>
+
+  <!-- 1. Pembayaran Iuran Sheet (with Period Picker for missed months!) -->
+  <div class="sheet hidden" id="cartSheet" role="dialog" aria-modal="true" aria-labelledby="cartSheetTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="cartSheetTitle">Pembayaran Iuran</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="form-group">
+        <label for="checkoutWargaSelect">Warga Pembayar</label>
+        <select id="checkoutWargaSelect" required></select>
+      </div>
+
+      <div class="form-group">
+        <label for="checkoutPeriodSelect">Untuk Periode Bulan</label>
+        <select id="checkoutPeriodSelect" required></select>
+        <div class="period-status-hint" id="checkoutPeriodStatus"></div>
+      </div>
+
+      <div class="cart-section-label">
+        <span>Rincian Iuran (<span id="cartPeriodBadge">Nov 2026</span>)</span>
+        <span class="wajib-note">Iuran wajib tidak dapat dihapus</span>
+      </div>
+      <div class="cart-items-list" id="cartItemsList"></div>
+      <div class="optional-picker-wrap hidden" id="optionalDuesWrap">
+        <div class="optional-picker-title">Tambah Iuran Opsional</div>
+        <div class="optional-picker-chips" id="optionalDuesPicker"></div>
+      </div>
+
+      <div class="form-group mt-md">
+        <label>Metode Pembayaran</label>
+        <div class="method-grid" id="paymentMethodGrid">
+          <button type="button" class="method-pill active" data-method="Tunai">Tunai</button>
+          <button type="button" class="method-pill" data-method="QRIS RT">QRIS RT</button>
+          <button type="button" class="method-pill" data-method="Transfer">Transfer</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="checkoutNote">Catatan (opsional)</label>
+        <input type="text" id="checkoutNote" placeholder="Contoh: Susulan bulan lalu" />
+      </div>
+    </div>
+    <div class="sheet-footer">
+      <div class="checkout-summary">
+        <span>Total Bayar</span>
+        <strong id="checkoutTotalAmount">Rp 0</strong>
+      </div>
+      <button type="button" class="primary-btn full" id="confirmPaymentBtn">Konfirmasi Pembayaran</button>
+    </div>
+  </div>
+
+  <!-- 2. Catat Pengeluaran Sheet -->
+  <div class="sheet hidden" id="expenseSheet" role="dialog" aria-modal="true" aria-labelledby="expenseSheetTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="expenseSheetTitle">Catat Pengeluaran</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <form id="expenseForm">
+      <div class="sheet-body">
+        <div class="form-group">
+          <label for="expenseTitle">Keperluan</label>
+          <input type="text" id="expenseTitle" placeholder="Contoh: Bayar petugas sampah" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expenseAmount">Nominal (Rp)</label>
+            <input type="number" id="expenseAmount" min="1000" step="500" placeholder="150000" required />
+          </div>
+          <div class="form-group">
+            <label for="expenseCategory">Kategori</label>
+            <select id="expenseCategory">
+              <option value="Kebersihan">Kebersihan</option>
+              <option value="Keamanan">Keamanan</option>
+              <option value="Fasilitas">Fasilitas</option>
+              <option value="Sosial">Sosial</option>
+              <option value="Kegiatan">Kegiatan</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="expenseNote">Catatan / Penerima</label>
+          <input type="text" id="expenseNote" placeholder="Contoh: Pak Slamet" />
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button type="submit" class="danger-btn full">Simpan Pengeluaran</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 3. Tambah / Edit Warga Sheet -->
+  <div class="sheet hidden" id="wargaSheet" role="dialog" aria-modal="true" aria-labelledby="wargaSheetTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="wargaSheetTitle">Tambah Data Warga</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <form id="wargaForm">
+      <input type="hidden" id="wargaEditId" />
+      <div class="sheet-body">
+        <div class="form-group">
+          <label for="wargaNameInput">Nama Kepala Keluarga</label>
+          <input type="text" id="wargaNameInput" placeholder="Contoh: Pak Ahmad Fauzi" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="wargaBlokInput">Blok</label>
+            <input type="text" id="wargaBlokInput" placeholder="A" maxlength="6" required />
+          </div>
+          <div class="form-group">
+            <label for="wargaNomorInput">No. Rumah</label>
+            <input type="text" id="wargaNomorInput" placeholder="08" maxlength="8" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="wargaPhoneInput">No. WhatsApp (opsional)</label>
+          <input type="tel" id="wargaPhoneInput" placeholder="081234567890" />
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button type="submit" class="primary-btn full" id="wargaSubmitBtn">Simpan Warga</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 4. Tambah Jenis Iuran Sheet -->
+  <div class="sheet hidden" id="dueSheet" role="dialog" aria-modal="true" aria-labelledby="dueSheetTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="dueSheetTitle">Tambah Jenis Iuran</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <form id="dueForm">
+      <div class="sheet-body">
+        <div class="form-group">
+          <label for="dueNameInput">Nama Iuran</label>
+          <input type="text" id="dueNameInput" placeholder="Contoh: Perbaikan Portal" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="dueAmountInput">Nominal / KK (Rp)</label>
+            <input type="number" id="dueAmountInput" min="1000" step="1000" placeholder="25000" required />
+          </div>
+          <div class="form-group">
+            <label for="dueCategoryInput">Kategori</label>
+            <select id="dueCategoryInput">
+              <option value="wajib">Wajib</option>
+              <option value="opsional">Opsional</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dueDescInput">Deskripsi Singkat</label>
+          <input type="text" id="dueDescInput" placeholder="Digunakan untuk operasional bulanan RT" />
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button type="submit" class="primary-btn full">Tambah ke Etalase</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 5. Struk / Detail Transaksi Modal -->
+  <div class="sheet hidden" id="receiptSheet" role="dialog" aria-modal="true" aria-labelledby="receiptSheetTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="receiptSheetTitle">Detail Transaksi</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="receiptContent"></div>
+    <div class="sheet-footer row-btns">
+      <button type="button" class="outline-btn" id="deleteTxBtn">Hapus</button>
+      <button type="button" class="primary-btn flex-1" id="copyReceiptWaBtn">Salin Kuitansi WA</button>
+    </div>
+  </div>
+
+  <!-- 5B. Detail Jenis Iuran Sheet -->
+  <div class="sheet hidden" id="dueDetailSheet" role="dialog" aria-modal="true" aria-labelledby="dueDetailTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="dueDetailTitle">Detail Iuran</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="dueDetailContent"></div>
+    <div class="sheet-footer">
+      <button type="button" class="primary-btn full" id="dueDetailPayBtn">Bayar Iuran Ini</button>
+    </div>
+  </div>
+
+  <!-- 5C. Detail Warga Sheet -->
+  <div class="sheet hidden" id="wargaDetailSheet" role="dialog" aria-modal="true" aria-labelledby="wargaDetailTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="wargaDetailTitle">Detail Warga</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="wargaDetailContent"></div>
+    <div class="sheet-footer row-btns" id="wargaDetailFooter"></div>
+  </div>
+
+  <!-- 5D. Pengaturan Lingkungan Sheet -->
+  <div class="sheet hidden" id="settingsSheet" role="dialog" aria-modal="true" aria-labelledby="settingsSheetTitle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 id="settingsSheetTitle">Pengaturan Lingkungan</h3>
+      <button type="button" class="close-btn" data-close-modal aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <form id="settingsForm">
+      <div class="sheet-body">
+        <div class="form-group">
+          <label for="setHousingName">Nama Perumahan</label>
+          <input type="text" id="setHousingName" placeholder="Contoh: Perum Melati Asri" required />
+        </div>
+        <div class="form-group">
+          <label for="setClusterName">Cluster</label>
+          <input type="text" id="setClusterName" placeholder="Contoh: Cluster Anggrek" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="setRtNumber">RT</label>
+            <input type="text" id="setRtNumber" placeholder="04" maxlength="5" required />
+          </div>
+          <div class="form-group">
+            <label for="setRwNumber">RW</label>
+            <input type="text" id="setRwNumber" placeholder="07" maxlength="5" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="setTreasurerName">Nama Bendahara</label>
+          <input type="text" id="setTreasurerName" placeholder="Contoh: Ibu Rina" required />
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button type="submit" class="primary-btn full">Simpan Pengaturan</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 6. Global Confirmation Popup (for EVERY save, payment, and delete) -->
+  <div class="confirm-backdrop hidden" id="confirmBackdrop"></div>
+  <div class="confirm-dialog hidden" id="confirmDialog" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+    <div class="confirm-icon" id="confirmIcon"></div>
+    <h3 class="confirm-title" id="confirmTitle">Konfirmasi</h3>
+    <p class="confirm-message" id="confirmMessage"></p>
+    <div class="confirm-summary hidden" id="confirmSummary"></div>
+    <div class="confirm-actions">
+      <button type="button" class="outline-btn flex-1" id="confirmCancelBtn">Batal</button>
+      <button type="button" class="primary-btn flex-1" id="confirmOkBtn">Ya, Lanjutkan</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="db.js"></script>
+  <script src="pdfExport.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

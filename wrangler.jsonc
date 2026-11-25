@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kas-warga-app",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-25",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kas-warga-db",
+      "database_id": "0683de75-dd05-49e0-995e-100168f96657"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "kas-warga-app",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Aplikasi iuran kas warga responsif mobile & tablet dengan MySQL lokal dan Cloudflare D1.",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "db:init": "node scripts/init-mysql.mjs",
+    "cf:deploy": "npx wrangler deploy"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mysql2": "^3.14.0"
+  }
+}

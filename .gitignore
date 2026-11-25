@@ -1,0 +1,9 @@
+node_modules/
+.local-mysql/
+.env
+.wrangler/
+database/*.db
+database/*.db-shm
+database/*.db-wal
+*.log
+.DS_Store
