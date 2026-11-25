@@ -7,3 +7,4 @@ database/*.db-shm
 database/*.db-wal
 *.log
 .DS_Store
+tutorial_assets/
